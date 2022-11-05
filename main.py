@@ -10,14 +10,12 @@ import requests
 #soup=BeautifulSoup(page.content, "html.parser")
 
 file = open("countries.html", "r")
-soup=BeautifulSoup(file.read(), "html.parser")
+soup = BeautifulSoup(file.read(), "html.parser")
 results = soup.find("tbody")
 
-
-i=0
+trs = results.find_all("tr")
 dict = {}
 
-trs = results.find_all("tr")
 
 for tr in trs:
     tds = tr.find_all("td")
