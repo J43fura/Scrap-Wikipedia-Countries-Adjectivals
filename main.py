@@ -4,20 +4,20 @@ import requests
 
 #Wikipedia countries and their respective Adjectivals
 
-#URL = "https://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations"
-#page = requests.get(URL)
-#soup = BeautifulSoup(page.content, "html.parser")
-#soup=BeautifulSoup(page.content, "html.parser")
+URL = "https://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations"
+page = requests.get(URL)
+soup = BeautifulSoup(page.content, "html.parser")
 
+
+"""#For Local HTML - used for testings.
 file = open("countries.html", "r")
-soup = BeautifulSoup(file.read(), "html.parser")
-results = soup.find("tbody")
+soup = BeautifulSoup(file.read(), "html.parser")"""
 
+
+results = soup.find("tbody")
 trs = results.find_all("tr")
 dict = {}
-
-
-for tr in trs:
+for tr in trs[1:]:
     tds = tr.find_all("td")
     D = []
     C = tds[0].text
@@ -34,10 +34,13 @@ for tr in trs:
                 break
     else:
         D = tds[1].text
+        if D.find('[') != -1:
+            D = D[:D.find('[')]
+
     dict[C] = D
 
 print(dict)
 
 with open("Countries And Adjectivals.json", "w") as outfile:
-    json.dump(dict, outfile)
+    json.dump(dict, outfile, ensure_ascii=False)
 
